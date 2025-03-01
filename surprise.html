@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Surprise!</title>
+    <style>
+        body {
+            font-family: 'Arial', sans-serif;
+            text-align: center;
+            background: linear-gradient(45deg, #ff66b2, #ffccff);
+            margin: 0;
+            padding: 0;
+            overflow: hidden;
+        }
+        h1 {
+            font-size: 60px;
+            color: #ffffff;
+            text-shadow: 3px 3px 10px #ff0080;
+            animation: glow 1.5s infinite alternate;
+        }
+        @keyframes glow {
+            from { text-shadow: 3px 3px 10px #ff0080; }
+            to { text-shadow: 3px 3px 20px #ff33a6; }
+        }
+        .message {
+            font-size: 28px;
+            color: #fff;
+            margin-top: 20px;
+            animation: fadeIn 2s;
+        }
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+        .gif-container {
+            margin-top: 20px;
+            
+        }
+        canvas {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100vw;
+            height: 100vh;
+            pointer-events: none;
+        }
+    </style>
+</head>
+<body>
+    <audio autoplay loop>
+        <source src="audio1.mp3" type="audio/mpeg">
+    </audio>
+
+    <h1>🎊 Surprise! 🎊</h1>
+    <p class="message">Happiest Birthday Gungun Have a Beautiful year ahead 💖🎂✨</p>
+
+    <div class="gif-container">
+        <img src="img3.jpg" alt="Celebration GIF" width="300" height="400px">
+    </div>
+
+    <canvas id="confetti"></canvas>
+
+    <script>
+        function startConfetti() {
+            const canvas = document.getElementById('confetti');
+            const ctx = canvas.getContext('2d');
+            canvas.width = window.innerWidth;
+            canvas.height = window.innerHeight;
+
+            const confettiParticles = [];
+            for (let i = 0; i < 100; i++) {
+                confettiParticles.push({
+                    x: Math.random() * canvas.width,
+                    y: Math.random() * canvas.height,
+                    size: Math.random() * 10 + 5,
+                    color: `hsl(${Math.random() * 360}, 100%, 70%)`,
+                    speedY: Math.random() * 3 + 2
+                });
+            }
+
+            function drawConfetti() {
+                ctx.clearRect(0, 0, canvas.width, canvas.height);
+                confettiParticles.forEach(particle => {
+                    ctx.fillStyle = particle.color;
+                    ctx.beginPath();
+                    ctx.arc(particle.x, particle.y, particle.size, 0, Math.PI * 2);
+                    ctx.fill();
+                    particle.y += particle.speedY;
+                    if (particle.y > canvas.height) {
+                        particle.y = 0;
+                        particle.x = Math.random() * canvas.width;
+                    }
+                });
+                requestAnimationFrame(drawConfetti);
+            }
+            drawConfetti();
+        }
+
+        window.onload = startConfetti;
+    </script>
+</body>
+</html>
